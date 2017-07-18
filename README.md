@@ -1,7 +1,7 @@
 # chrome-downloads-tabber
 Instead of opening the downloads bar, new downloads in Chrome will open 'chrome://downloads' in a new tab, or change focus to the downloads tab if one already exists.
 
-Coming to the Chrome Web Store soon!
+Get this extension on the [Chrome Web Store](https://chrome.google.com/webstore/detail/download-tabber/ikifbnamadpilmpokncfbhdcbldikbdi)!
 
 Contributions are welcome.
 
