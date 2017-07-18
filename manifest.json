@@ -1,9 +1,9 @@
 {
-    "name": "Download Tabbr",
+    "name": "Download Tabber",
     "version": "0.0.2",
     "manifest_version": 2,
     "description": "Open downloads in Chrome Downloads tab, rather than bottom bar.",
-    "homepage_url": "http://austinguevara.net",
+    "homepage_url": "https://github.com/austin-guevara/chrome-downloads-tabber",
     "icons": {
         "16": "icons/icon16.png",
         "48": "icons/icon48.png",
@@ -18,15 +18,12 @@
     },
     "browser_action": {
         "default_icon": "icons/icon19.png",
-        "default_title": "browser action demo",
+        "default_title": "Download Tabber",
         "default_popup": "src/browser_action/browser_action.html"
     },
     "permissions": [
         "downloads",
         "downloads.shelf",
         "tabs"
-    ],
-    "web_accessible_resources": [
-        "https://goo.gl/"
     ]
 }

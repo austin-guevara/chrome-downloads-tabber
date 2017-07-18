@@ -2,7 +2,7 @@
 var downloadsURL = 'chrome://downloads/';
 
 // Prevent repeated downloads opens
-var justOpened = false;
+// var justOpened = false;
 var isOpen = false;
 
 // Disable the bottom bar
@@ -18,38 +18,51 @@ function openDownloads() {
     });
 }
 
-function checkDownloadsAlreadyOpen() {
+// function checkDownloadsAlreadyOpen() {
+//     // If the tabs query returns a match, set isOpen to true.
+//     chrome.tabs.query({url: downloadsURL}, function(results) {
+//         if (results.length >= 1) {
+//             isOpen = true;
+//         } else {
+//             isOpen = false;
+//         }
+//     });
+// }
 
-    // If the tabs query returns a match, set isOpen to true.
-    chrome.tabs.query({url: downloadsURL}, function(results) {
-        if (results.length >= 1) {
-            isOpen = true;
-        } else {
-            isOpen = false;
-        }
-    });
-}
+chrome.downloads.onCreated.addListener(function(downloadItem) {
+    chrome.downloads.onChanged.addListener(function(certainDownloadItem) {
+        // Disable tab bar at the bottom of the window
+        disableShelf();
 
-chrome.downloads.onCreated.addListener(function(tab) {
-    // Disable tab bar at the bottom of the window
-    disableShelf();
-
-    // Update the already open status
-    checkDownloadsAlreadyOpen();
-
-    // Open new downloads tab if one does not exist already
-    if (!isOpen && justOpened == false) {
-        openDownloads();
-    } else {
-        chrome.tabs.query({ url: downloadsURL }, function (results) {
+        // Update the already open status
+        // checkDownloadsAlreadyOpen();
+        // If the tabs query returns a match, set isOpen to true.
+        chrome.tabs.query({url: downloadsURL}, function(results) {
             if (results.length > 0) {
-                var updateProperties = { "active": true };
-                chrome.tabs.update(results[0].id, updateProperties, function (tab) { });
+                isOpen = true;
+                console.log('DOWNLOADS IS OPEN.');
+            } else {
+                isOpen = false;
+                console.log('DOWNLOADS NOT ALREADY OPEN.');
             }
         });
-    }
 
-    // Prevent repeated downloads opens
-    justOpened = true;
-    setTimeout(function(){ justOpened = false; }, 3000);
+        // Open new downloads tab if one does not exist already
+        if (isOpen) {
+            console.log('TRY OPENING EXISTING');
+            chrome.tabs.query({ url: downloadsURL }, function (results) {
+                if (results.length > 0) {
+                    var updateProperties = { "active": true };
+                    chrome.tabs.update(results[0].id, updateProperties, function (tab) { });
+                }
+            });
+        } else {
+            openDownloads();
+            console.log('I OPENED A TAB.');
+        }
+
+        // Prevent repeated downloads opens
+        // justOpened = true;
+        // setTimeout(function(){ justOpened = false; }, 3000);
+    });
 });
