@@ -7,9 +7,13 @@ chrome.runtime.onStartup.addListener(disableShelf);
 
 let downloadsURL = 'chrome://downloads/';
 
-var thisGuy = [];
+// var existingDownloadIds = [];
 
-var existingDownloadIds = [];
+var beginDelayFlag = false;
+
+setTimeout(function() {
+	beginDelayFlag = true;
+}, 10000);
 
 function openExisting(downloadTabs) {
     var updateProperties = {
@@ -26,10 +30,13 @@ function newDownloadsTab() {
 }
 
 chrome.downloads.onCreated.addListener(function(downloadItem) {
+	console.log(downloadItem);
 	chrome.downloads.onChanged.addListener(function(changedDownloadItem) {
-		if (changedDownloadItem.hasOwnProperty('filename')
+		if (beginDelayFlag
+			&& changedDownloadItem.hasOwnProperty('filename')
 			&& changedDownloadItem.id == downloadItem.id
 			&& changedDownloadItem.filename != downloadItem.filename) {
+				console.log(changedDownloadItem);
 				chrome.tabs.query({
 					url: downloadsURL
 				}, function(results) {

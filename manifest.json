@@ -1,6 +1,6 @@
 {
     "name": "Download Tabber",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "manifest_version": 2,
     "description": "Open downloads in Chrome Downloads tab, rather than bottom bar.",
     "homepage_url": "https://github.com/austin-guevara/chrome-downloads-tabber",
